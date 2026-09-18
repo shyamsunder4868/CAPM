@@ -1,33 +1,36 @@
 namespace Company.EmployeeManagement;
-entity EmployeeSchema {
-    key ID             : UUID;
-        Name           : String(50);
-        EmpEmail       : String(50);
-        Age            : Integer;
-        CompanyAddress : String(100);
-        MobileNumber   : String(15);
-        Salary         : Decimal(12, 2);
-        Number         : String(30);
-        RAm : String(20);
+entity Employees {
+    key EmployeeUUID    : UUID;
+
+        EmployeeCode    : String(20);
+        GivenName       : String(50);
+        FamilyName      : String(50);
+        WorkEmail       : String(100);
+        EmployeeAge     : Integer;
+        ContactPhone    : String(15);
+        AnnualSalary    : Decimal(12,2);
+        PositionTitle   : String(80);
+        DepartmentName  : String(80);
+        HomeAddress     : Association to one EmployeeAddresses
+                            on HomeAddress.EmployeeRef = $self;
 }
-entity StudentSchema {
-    key ID     : UUID;
-        Name   : String(50);
-        Email  : String(50);
-        age    : Integer;
-        Mobile : Integer;
-        Shyam : String(40);
-        Ram2:String(20);
-        Ram:String(20);
+entity EmployeeAddresses {
+    key AddressUUID     : UUID;
+
+        StreetAddress   : String(100);
+        ApartmentInfo   : String(100);
+        Municipality    : String(50);
+        Province        : String(50);
+        ZipCode         : String(10);
+        NationName      : String(50);
+        EmployeeRef     : Association to one Employees;
 }
-
-entity EmployeeAddress {
-
-    key ID         : UUID;
-        EmployeeID : UUID;
-        Address    : String(100);
-        City       : String(50);
-        Pincode    : String(10);
+entity Students {
+    key StudentUUID     : UUID;
+        AdmissionNumber : String(20);
+        StudentGivenName : String(50);
+        StudentFamilyName: String(50);
+        AcademicEmail    : String(100);
+        StudentAge      : Integer;
+        ParentContact   : String(15);
 }
-
-
