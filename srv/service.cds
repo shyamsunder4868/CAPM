@@ -1,17 +1,11 @@
-using { Company.EmployeeManagement as db }
-from '../db/schema';
+using { Company.EmployeeManagement as db } from '../db/schema';
 
-service EmployeeService {
+service EmployeeManagementService {
 
-    entity EntityServiceEmployee as projection on db.EmployeeSchema;
+    entity Employees as projection on db.Employees;
 
-    entity EmployeeAddress as projection on db.EmployeeAddress;
-}
+    entity EmployeeAddresses as projection on db.EmployeeAddresses;
 
-service StudentService {
-
-    entity ServiceStudent as projection on db.StudentSchema;
+    entity Students as projection on db.Students;
 
 }
-
-
