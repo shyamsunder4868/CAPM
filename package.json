@@ -29,6 +29,14 @@
       "html5-repo": true,
       "portal": true,
       "application-logging": true
+    },
+    "build": {
+      "target": "gen"
+    },
+    "hana": {
+      "deploy": {
+        "service": "PracticeHDi-freeInstance"
+      }
     }
   }
 }

@@ -13,3 +13,9 @@ db/.env.CAPM_mta_build_tmp/
 .CAPM_mta_build_tmp/
 mta_archives/
 **/default-env.json
+
+# auto generated wildcard
+db/.env
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
