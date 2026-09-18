@@ -1,0 +1,15 @@
+node_modules/
+gen/
+.gen/
+.vscode/
+.env
+.env.*
+*.log
+.DS_Store
+.cdsrc-private.json
+
+# auto generated wildcard
+db/.env.CAPM_mta_build_tmp/
+.CAPM_mta_build_tmp/
+mta_archives/
+**/default-env.json

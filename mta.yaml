@@ -1,0 +1,252 @@
+_schema-version: 3.3.0
+
+ID: CAPM_PROJECT
+version: 1.0.0
+
+description: "CAP project with HANA"
+
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+
+modules:
+
+  # ==================================================
+  # CAP Backend
+  # ==================================================
+  - name: CAPM_PROJECT-srv
+    type: nodejs
+    path: gen/srv
+
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+
+    build-parameters:
+      builder: npm-ci
+
+    requires:
+      - name: CAPM_PROJECT-auth
+      - name: CAPM_PROJECT-db
+      - name: CAPM_PROJECT-connectivity
+      - name: CAPM_PROJECT-destination
+      - name: CAPM_PROJECT-logging
+      - name: CAPM_PROJECT-auditlog
+
+    # PROVIDE srv-api for Approuter and App Deployer
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+
+  # ==================================================
+  # HANA DB Deployer
+  # ==================================================
+  - name: CAPM_PROJECT-db-deployer
+    type: hdb
+    path: gen/db
+
+    requires:
+      - name: CAPM_PROJECT-db
+
+    parameters:
+      buildpack: nodejs_buildpack
+
+  # ==================================================
+  # Approuter
+  # ==================================================
+  - name: CAPM_PROJECT
+    type: approuter.nodejs
+    path: app/router
+
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          url: ~{srv-url}
+          forwardAuthToken: true
+
+      - name: CAPM_PROJECT-auth
+
+      - name: CAPM_PROJECT-html5-runtime
+
+      - name: CAPM_PROJECT-portal
+
+      - name: CAPM_PROJECT-logging
+
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+
+  # ==================================================
+  # HTML5 App Deployer
+  # ==================================================
+  - name: CAPM_PROJECT-app-deployer
+    type: com.sap.application.content
+    path: gen
+
+    build-parameters:
+      build-result: app/
+
+    requires:
+      - name: CAPM_PROJECT-auth
+
+      - name: srv-api
+
+      - name: CAPM_PROJECT-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+
+  # ==================================================
+  # Portal Deployer
+  # ==================================================
+  - name: CAPM_PROJECT-portal-deployer
+    type: com.sap.application.content
+    path: app/portal
+
+    requires:
+      - name: CAPM_PROJECT-portal
+        parameters:
+          content-target: true
+          service-key:
+            name: CAPM_PROJECT-portal-key
+            config:
+              content-endpoint: developer
+
+      - name: CAPM_PROJECT-auth
+
+      - name: CAPM_PROJECT-html5-repo-host
+
+      - name: CAPM_PROJECT-app-deployer
+
+    deployed-after:
+      - CAPM_PROJECT-app-deployer
+
+# ==================================================
+# RESOURCES
+# ==================================================
+
+resources:
+
+  # ==================================================
+  # XSUAA
+  # ==================================================
+  - name: CAPM_PROJECT-auth
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+
+      config:
+        xsappname: CAPM_PROJECT-${org}-${space}
+        tenant-mode: dedicated
+
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+
+          redirect-uris:
+            - https://*~{app-api/app-uri}/**
+
+    requires:
+      - name: app-api
+
+  # ==================================================
+  # HANA HDI Container
+  # ==================================================
+  - name: CAPM_PROJECT-db
+    type: com.sap.xs.hdi-container
+
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  # ==================================================
+  # Connectivity
+  # ==================================================
+  - name: CAPM_PROJECT-connectivity
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: connectivity
+      service-plan: lite
+
+  # ==================================================
+  # Destination
+  # ==================================================
+  - name: CAPM_PROJECT-destination
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: destination
+      service-plan: lite
+
+  # ==================================================
+  # HTML5 Repository Host
+  # ==================================================
+  - name: CAPM_PROJECT-html5-repo-host
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  # ==================================================
+  # HTML5 Repository Runtime
+  # ==================================================
+  - name: CAPM_PROJECT-html5-runtime
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+
+  # ==================================================
+  # Portal
+  # ==================================================
+  - name: CAPM_PROJECT-portal
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: portal
+      service-plan: standard
+
+  # ==================================================
+  # Application Logs
+  # ==================================================
+  - name: CAPM_PROJECT-logging
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: application-logs
+      service-plan: standard
+
+  # ==================================================
+  # Audit Log
+  # ==================================================
+  - name: CAPM_PROJECT-auditlog
+    type: org.cloudfoundry.managed-service
+
+    parameters:
+      service: auditlog
+      service-plan: premium

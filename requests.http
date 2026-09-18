@@ -1,0 +1,534 @@
+# ### Employee Metadata
+
+# GET http://localhost:4004/odata/v4/employee/$metadata
+
+
+# ### Read Employees
+
+# GET http://localhost:4004/odata/v4/employee/EntityServiceEmployee
+
+
+# ### Read Students
+
+# GET http://localhost:4004/odata/v4/student/ServiceStudent
+
+
+# ### 2. CREATE Employee
+
+# POST http://localhost:4004/odata/v4/employee/EntityServiceEmployee
+# Content-Type: application/json
+
+# {
+#     "ID": "11111111-1111-1111-1111-111111111111",
+#     "Name": "Shyam",
+#     "EmpEmail": "shyam@gmail.com",
+#     "Age": 25,
+#     "CompanyAddress": "Bangalore",
+#     "MobileNumber": "9876543210",
+#     "Salary": 50000.00,
+#     "Number": "EMP001",
+#     "RAm": "Developer"
+# }
+
+
+# ### 3. READ Employees
+
+# GET http://localhost:4004/odata/v4/employee/EntityServiceEmployee
+
+
+# ### 4. UPDATE Employee
+
+# PATCH http://localhost:4004/odata/v4/employee/EntityServiceEmployee(11111111-1111-1111-1111-111111111111)
+# Content-Type: application/json
+
+# {
+#     "Salary": 60000.00
+# }
+
+
+# ### 5. VERIFY UPDATE
+
+# GET http://localhost:4004/odata/v4/employee/EntityServiceEmployee(11111111-1111-1111-1111-111111111111)
+
+# ### 6. DELETE Employee
+
+# DELETE http://localhost:4004/odata/v4/employee/EntityServiceEmployee(11111111-1111-1111-1111-111111111111)
+
+# ### 7. VERIFY DELETE
+
+# GET http://localhost:4004/odata/v4/employee/EntityServiceEmployee(11111111-1111-1111-1111-111111111111)
+
+# ###
+
+# POST http://localhost:4004/odata/v4/employee/EntityServiceEmployee
+# Content-Type: application/json
+
+# {
+#     "Name": "Shyam23433w",
+#     "EmpEmail": "shyam@test.com",
+#     "Age": 25,
+#     "CompanyAddress": "Bangalore",
+#     "MobileNumber": "9876543210",
+#     "Salary": 50000,
+#     "Number": "EMP001",
+#     "RAm": "Manager"
+# }
+
+### =====================================================
+### 1. SERVICE METADATA
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/$metadata
+
+
+### =====================================================
+### 2. GET ALL DEPARTMENTS
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Departments
+
+
+### =====================================================
+### 3. GET ALL EMPLOYEES
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Employees
+
+
+### =====================================================
+### 4. GET ALL CUSTOMERS
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Customers
+
+
+### =====================================================
+### 5. GET ALL ACCOUNTS
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Accounts
+
+
+### =====================================================
+### 6. GET ALL TRANSACTIONS
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Transactions
+
+
+### =====================================================
+### 7. CREATE DEPARTMENT
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "IT"
+}
+
+
+### =====================================================
+### 8. CREATE ANOTHER DEPARTMENT
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "HR"
+}
+
+
+### =====================================================
+### 9. CREATE CUSTOMER
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Rahul Sharma",
+    "Email": "rahul@gmail.com"
+}
+
+
+### =====================================================
+### 10. GET EMPLOYEE BY ID
+### Replace ID with actual Employee UUID
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Employees(<EMPLOYEE_UUID>)
+
+
+### =====================================================
+### 11. GET EMPLOYEES WITH FILTER
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Employees?$filter=Status eq 'Active'
+
+
+### =====================================================
+### 12. GET EMPLOYEES WITH SELECT
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Employees?$select=EmployeeID,FirstName,LastName,Email,Salary,Status
+
+
+
+### =====================================================
+### 15. TRANSFER MONEY
+### Replace ACCOUNT UUIDs
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "<SOURCE_ACCOUNT_UUID>",
+    "toAccountID": "<TARGET_ACCOUNT_UUID>",
+    "amount": 500,
+    "referenceID": "TRX-001"
+}
+
+
+### =====================================================
+### 16. GET TRANSACTIONS AFTER TRANSFER
+### =====================================================
+
+GET http://localhost:4004/odata/v4/app/Transactions
+
+
+
+### =====================================================
+### CREATE DEPARTMENTS (5 more)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "Finance"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "Sales"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "Marketing"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "Operations"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Departments
+Content-Type: application/json
+
+{
+    "Name": "Support"
+}
+
+
+
+### =====================================================
+### CREATE CUSTOMERS (5 more)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Anjali Mehta",
+    "Email": "anjali@gmail.com"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Suresh Patel",
+    "Email": "suresh@gmail.com"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Kavya Iyer",
+    "Email": "kavya@gmail.com"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Manoj Gupta",
+    "Email": "manoj@gmail.com"
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Customers
+Content-Type: application/json
+
+{
+    "Name": "Divya Rao",
+    "Email": "divya@gmail.com"
+}
+
+
+### =====================================================
+### CREATE ACCOUNTS (5 more)
+### Replace CUSTOMER_UUID with an actual Customer ID
+### (get one from GET http://localhost:4004/odata/v4/app/Customers)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Accounts
+Content-Type: application/json
+
+{
+    "AccountNumber": "ACC-101",
+    "Customer_ID": "<CUSTOMER_UUID>",
+    "Balance": 15000
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Accounts
+Content-Type: application/json
+
+{
+    "AccountNumber": "ACC-102",
+    "Customer_ID": "<CUSTOMER_UUID>",
+    "Balance": 8000
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Accounts
+Content-Type: application/json
+
+{
+    "AccountNumber": "ACC-103",
+    "Customer_ID": "<CUSTOMER_UUID>",
+    "Balance": 25000
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Accounts
+Content-Type: application/json
+
+{
+    "AccountNumber": "ACC-104",
+    "Customer_ID": "<CUSTOMER_UUID>",
+    "Balance": 5000
+}
+
+###
+
+POST http://localhost:4004/odata/v4/app/Accounts
+Content-Type: application/json
+
+{
+    "AccountNumber": "ACC-105",
+    "Customer_ID": "<CUSTOMER_UUID>",
+    "Balance": 30000
+}
+###
+GET http://localhost:4004/odata/v4/app/Departments
+
+### =====================================================
+### CREATE EMPLOYEE 1 (Department: IT)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Employees
+Content-Type: application/json
+
+{
+    "EmployeeID": "EMP201",
+    "FirstName": "Aarav",
+    "LastName": "Shah",
+    "Email": "aarav.shah@company.com",
+    "Department_ID": "9de81e7c-300c-453a-be89-e76e0485fedb",
+    "Designation": "Backend Developer",
+    "Salary": 48000,
+    "JoiningDate": "2024-03-12"
+}
+
+
+### =====================================================
+### CREATE EMPLOYEE 2 (Department: HR)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Employees
+Content-Type: application/json
+
+{
+    "EmployeeID": "EMP202",
+    "FirstName": "Meera",
+    "LastName": "Joshi",
+    "Email": "meera.joshi@company.com",
+    "Department_ID": "2e56f128-711a-446b-9dff-65144db56a93",
+    "Designation": "HR Executive",
+    "Salary": 40000,
+    "JoiningDate": "2023-07-19"
+}
+
+
+### =====================================================
+### CREATE EMPLOYEE 3 (Department: Support)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Employees
+Content-Type: application/json
+
+{
+    "EmployeeID": "EMP203",
+    "FirstName": "Karan",
+    "LastName": "Malhotra",
+    "Email": "karan.malhotra@company.com",
+    "Department_ID": "f3aa8bb7-a800-40f5-87e9-913c4eb74a27",
+    "Designation": "Support Engineer",
+    "Salary": 52000,
+    "JoiningDate": "2022-01-05"
+}
+
+
+### =====================================================
+### CREATE EMPLOYEE 4 (Department: IT)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Employees
+Content-Type: application/json
+
+{
+    "EmployeeID": "EMP204",
+    "FirstName": "Pooja",
+    "LastName": "Desai",
+    "Email": "pooja.desai@company.com",
+    "Department_ID": "9de81e7c-300c-453a-be89-e76e0485fedb",
+    "Designation": "UI/UX Designer",
+    "Salary": 39000,
+    "JoiningDate": "2023-12-01"
+}
+
+
+### =====================================================
+### CREATE EMPLOYEE 5 (Department: HR)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/Employees
+Content-Type: application/json
+
+{
+    "EmployeeID": "EMP205",
+    "FirstName": "Nikhil",
+    "LastName": "Bansal",
+    "Email": "nikhil.bansal@company.com",
+    "Department_ID": "2e56f128-711a-446b-9dff-65144db56a93",
+    "Designation": "Project Manager",
+    "Salary": 65000,
+    "JoiningDate": "2021-06-15"
+}
+###
+GET http://localhost:4004/odata/v4/app/Accounts
+
+### =====================================================
+### TRANSFER 1: ACC-101 -> ACC-102 (1000)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "39476212-2555-43d4-a73f-f4f645629807",
+    "toAccountID": "e8f15fb3-0f79-4bad-ae05-e39259944a2a",
+    "amount": 1000,
+    "referenceID": "TRX-101"
+}
+
+
+### =====================================================
+### TRANSFER 2: ACC-103 -> ACC-104 (2500)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "cd8a49c0-d0c0-434b-8fa5-00c34ab4e746",
+    "toAccountID": "f83fac01-d7aa-4f8f-87b9-e4c5d86a5e1d",
+    "amount": 2500,
+    "referenceID": "TRX-102"
+}
+
+
+### =====================================================
+### TRANSFER 3: ACC-105 -> ACC-101 (500)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "3248cab7-932e-4e07-9c67-e6daa0ceb798",
+    "toAccountID": "39476212-2555-43d4-a73f-f4f645629807",
+    "amount": 500,
+    "referenceID": "TRX-103"
+}
+
+
+### =====================================================
+### TRANSFER 4: ACC-102 -> ACC-103 (3000)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "e8f15fb3-0f79-4bad-ae05-e39259944a2a",
+    "toAccountID": "cd8a49c0-d0c0-434b-8fa5-00c34ab4e746",
+    "amount": 3000,
+    "referenceID": "TRX-104"
+}
+
+
+### =====================================================
+### TRANSFER 5: ACC-104 -> ACC-105 (1500)
+### =====================================================
+
+POST http://localhost:4004/odata/v4/app/transferMoney
+Content-Type: application/json
+
+{
+    "fromAccountID": "f83fac01-d7aa-4f8f-87b9-e4c5d86a5e1d",
+    "toAccountID": "faf90326-0c90-4da1-be00-f37651859ef2",
+    "amount": 1500,
+    "referenceID": "TRX-105"
+}
